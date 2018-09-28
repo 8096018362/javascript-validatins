@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <style>
+        span {
+            font-size: 15px;
+            color: red;
+        }
+
+        body {
+            background-color: aqua
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 118px;
+            background-color: darkgrey;
+            border-radius: 10px;
+            width: 24%
+        }
+
+        input[type="radio:checked"] {
+            text-decoration-color: #fb2525
+        }
+
+        input[type="radio"] {
+            text-decoration-color: #fb2525
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            padding: 10px 10px;
+            line-height: 28px;
+            height: 20px;
+            border-radius: 10px;
+
+        }
+
+        select {
+            height: 40px;
+            border-radius: 10px;
+
+
+        }
+        input[type="submit"],
+        input[type="button"] {
+
+            height: 30px;
+            background: #fb2525;
+
+            font-size: 18px;
+            border-radius: 20px;
+        }
+
+        input[type="submit"]:hover {
+            cursor: pointer;
+            background: #ffc107;
+            color: #000;
+        }
+
+
+
+        input[type="button"]:hover {
+            cursor: pointer;
+            background: #ffc107;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form">
+        <span id="head"></span><br/>
+
+        <form onsubmit='return formValidation()' id="formid" >
+            <table cellspacing="2" cellpadding="2" >
+                <tr>
+                    <td><label>Full Name </label></td>
+                    <td><input id='firstname' type='text' onblur="return nam()" onkeypress=" return ValidateAlpha(event)" onkeyup="return nam()" maxlength="10"><br/>
+                        <span id="n"></span></td>
+                </tr>
+
+                <tr>
+                    <td><label>Mobile Number </label></td>
+                    <td><input type="text" name="mobileno" id="mobileno"  onkeypress="return isNumberKey(event)" onblur="return mob()" onkeyup= "return mob()" 
+
+maxlength="10">
+                        <br/> <span id="m"></span></td>
+                </tr>
+
+                
+                <tr>
+                    <td><label>Email </label></td>
+                    <td><input id='email' type='text' onblur="return ema()" onkeyup= "return ema()">
+                        <br/><span id="e"></span></td>
+                </tr>
+               
+
+                <tr>
+                    <td><label>Gender </label></td>
+                    <td><input type="radio" id="male" name="gender" onclick="if(this.checked){gend()}" value="male" /> <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" onclick="if(this.checked){gend()}" value="female" /> <label for="female">Female</label>
+                        <br/><span id="g"></span></td>
+                </tr>
+
+                
+                <tr>
+                    <td><input style="width:50%" ; id="submit" type='submit' value='Submit' /><input style="width:50%" ;
+                            type="button" onclick="myFunction()" value="Reset"></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+    <script>
+     function ValidateAlpha(evt) {
+            var keyCode = (evt.which) ? evt.which : evt.keyCode
+            if ((keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 123) && keyCode != 32)
+
+                return false;
+            return true;
+        }
+
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function formValidation() {
+            
+            var firstname = document.getElementById('firstname');
+            var mobileno = document.getElementById('mobileno');
+            var email = document.getElementById('email');
+            var gender = document.getElementsByName('gender');
+            
+           
+if (firstname.value.length == "") {
+                document.getElementById("n").innerHTML = " Enter Full Name";
+                
+            }
+
+            if (mobileno.value.length == "") {
+                document.getElementById("m").innerHTML = " Enter Mobile Number";
+                
+            }
+
+            if (email.value.length == "") {
+                document.getElementById("e").innerHTML = "Enter Email";
+                
+            }
+            
+            
+            var x="";
+            
+            for (var i = 0; i < gender.length; i++) {
+               if( gender[i].checked)
+               {
+                   x=gender[i].value;
+                   document.getElementById("g").innerHTML =""
+			break;
+               }
+               else{
+               document.getElementById("g").innerHTML = "Select Gender";
+               }
+            }
+            
+            if (Name(firstname)) {
+                if (Mobile(mobileno)) {
+                    if (Email(email)) {
+                        if (Gender(gender)) {                      
+                            console.log("Name: "+firstname.value);
+                            console.log("Email: "+email.value);
+                            console.log("Mobile: "+mobileno.value);
+                            console.log("Gender: "+x);
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function Name(data) {
+            var alphaExp = /^[a-zA-Z]{4,}$/;
+            if (data.value.match(alphaExp)) {
+                
+                return true;
+            } else {
+                
+                document.getElementById('n').innerHTML = "Enter Full Name"; 
+                return false;
+            }
+        }
+
+        
+        function Mobile(data) {
+
+            
+            if (data.value.length >= 10 ) {
+
+                
+                return true;
+            } else {
+                
+                document.getElementById('m').innerHTML = "Enter Mobile Number";
+                
+                return false;
+            }
+        }
+
+        
+        function Gender(data) {
+
+            var gender = form.querySelectorAll('input[name="gender"]:checked');
+            if (gender.length) {
+                
+                //document.getElementById('g').innerHTML = "Select Gender"
+                
+                //return false;
+           // } else {
+
+             
+                return true;
+            }
+        }
+       
+        function Email(data) {
+            var emailExp = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+            if (data.value.match(emailExp)) {
+                
+
+                return true;
+            }
+else if(data.value.length==0)
+{
+document.getElementById('e').innerHTML = "Enter Email";
+return false
+}
+ else {
+                
+                document.getElementById('e').innerHTML = "Enter Email not Valid";
+               
+                return false;
+            }
+        }
+        function nam() {
+            var firstname = document.getElementById('firstname').value;
+
+            if ((firstname.length) > 0) {
+                document.getElementById("n").innerHTML = "Name length minimum 4 chars ";
+               
+            }
+            if (firstname.length > 3) {
+                document.getElementById("n").innerHTML = "";
+               
+            }
+            if(firstname.length == 0){
+                document.getElementById("n").innerHTML = "Enter Full Name";
+                
+            }
+
+
+
+        }
+        function mob() {
+            var mobileno = document.getElementById('mobileno').value;
+            
+            if (mobileno.length < 10) {
+                document.getElementById("m").innerHTML = "Mobile Number should be 10digits";
+           }
+            if (mobileno.length ==10) {
+
+                document.getElementById("m").innerHTML = "";
+           }
+            if (mobileno.length == 0) {
+
+                document.getElementById("m").innerHTML = "Enter Mobile Number";
+           }
+        }
+        function ema() {
+            var email = document.getElementById('email').value;
+            
+            if (email.length == 0) {
+                document.getElementById("e").innerHTML = "Enter Email";
+                
+            }
+            else {
+                document.getElementById("e").innerHTML = "";
+                
+            }
+        }
+	function gend() {
+
+            document.getElementById('g').innerHTML = "";
+		}
+        
+        function myFunction() {
+            document.getElementById("formid").reset();
+        }
+    </script>
+</body>
+
+</html>
